@@ -14,6 +14,7 @@ gem 'sprockets-rails', '3.4.2'
 gem 'sqlite3',         '1.6.1'
 gem 'stimulus-rails',  '1.2.1'
 gem 'turbo-rails',     '1.4.0'
+gem "bcrypt",          "3.1.18"
 
 group :development, :test do
   gem 'debug', '1.7.1', platforms: %i[mri mingw x64_mingw]
