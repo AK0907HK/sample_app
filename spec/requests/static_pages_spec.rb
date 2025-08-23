@@ -50,4 +50,26 @@ RSpec.describe 'StaticPages', type: :request do
       expect(response.body).to include "Contact | #{base_title}"
     end
   end
+
+  describe 'POST /users #create' do
+    it '無効な値だと登録されないこと' do
+      expect do
+        post users_path, params: { user: { name: '',
+                                           email: 'user@invlid',
+                                           password: 'foo',
+                                           password_confirmation: 'bar' } }
+      end.to_not change(User, :count)
+    end
+  end
+
+  describe 'POST /users #create' do
+    it '無効な値だと登録されないこと' do
+      expect do
+        post users_path, params: { user: { name: '',
+                                           email: 'user@invlid',
+                                           password: 'foo',
+                                           password_confirmation: 'bar' } }
+      end.to_not change(User, :count)
+    end
+  end
 end
