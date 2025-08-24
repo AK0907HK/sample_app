@@ -102,10 +102,15 @@ GEM
     diff-lcs (1.6.1)
     erubi (1.13.1)
     execjs (2.10.0)
-    ffi (1.17.1-aarch64-linux-gnu)
+    factory_bot (6.4.6)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.4.3)
+      factory_bot (~> 6.4)
+      railties (>= 5.0.0)
+    ffi (1.17.1-aarch64-linux)
     ffi (1.17.1-arm64-darwin)
     ffi (1.17.1-x86_64-darwin)
-    ffi (1.17.1-x86_64-linux-gnu)
+    ffi (1.17.1-x86_64-linux)
     formatador (1.1.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -177,13 +182,13 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.4)
-    nokogiri (1.18.5-aarch64-linux-gnu)
+    nokogiri (1.18.5-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.18.5-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.18.5-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.5-x86_64-linux-gnu)
+    nokogiri (1.18.5-x86_64-linux)
       racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -367,11 +372,12 @@ GEM
     yard (0.9.37)
     yard-solargraph (0.1.0)
       yard (~> 0.9)
-    zeitwerk (2.7.2)
+    zeitwerk (2.6.18)
 
 PLATFORMS
   aarch64-linux
   arm64-darwin-21
+  arm64-darwin-24
   x86_64-darwin-21
   x86_64-linux
 
@@ -382,6 +388,7 @@ DEPENDENCIES
   capybara (= 3.38.0)
   concurrent-ruby (= 1.3.4)
   debug (= 1.7.1)
+  factory_bot_rails
   guard (= 2.18.0)
   guard-minitest (= 2.4.6)
   importmap-rails (= 1.1.5)
@@ -406,7 +413,7 @@ DEPENDENCIES
   webdrivers (= 5.2.0)
 
 RUBY VERSION
-   ruby 3.2.8p263
+   ruby 3.1.0p0
 
 BUNDLED WITH
    2.5.6

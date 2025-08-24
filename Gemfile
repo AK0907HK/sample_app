@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.2.8'
+#ruby '3.2.8'
+ruby "3.1.0"
 gem 'bootsnap',        '1.16.0', require: false
 gem 'bootstrap-sass',  '3.4.1'
 gem 'concurrent-ruby', '1.3.4'
@@ -19,6 +20,7 @@ gem "bcrypt",          "3.1.18"
 group :development, :test do
   gem 'debug', '1.7.1', platforms: %i[mri mingw x64_mingw]
   gem 'reline', '0.5.10'
+  gem 'factory_bot_rails'
 end
 
 group :development do
@@ -39,6 +41,8 @@ group :test do
   gem 'selenium-webdriver', '4.8.3'
   gem 'webdrivers', '5.2.0'
 end
+
+
 
 # Windows ではタイムゾーン情報用の tzinfo-data gem を含める必要があります
 # gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
