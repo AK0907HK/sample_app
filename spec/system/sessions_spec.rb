@@ -11,7 +11,6 @@ RSpec.describe "Sessions", type: :system do
    
       it 'ログインユーザ用のページが表示されること' do
         visit login_path
-   
         fill_in 'Email', with: user.email
         fill_in 'Password', with: user.password
         click_button 'Log in'
