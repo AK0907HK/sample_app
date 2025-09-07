@@ -32,20 +32,58 @@ RSpec.describe "Users", type: :request do
     end
   end  
 
-  describe 'PATCH /users' do
-    let!(:user) { FactoryBot.create(:user) }
- 
+  describe 'get /users/{id}/edit' do
+    let(:user) { FactoryBot.create(:user) }
+   
     it 'タイトルがEdit user | Ruby on Rails Tutorial Sample Appであること' do
+      log_in user
       get edit_user_path(user)
       expect(response.body).to include full_title('Edit user')
     end
+   
+    context '未ログインの場合' do
+      it 'flashが空でないこと' do
+        get edit_user_path(user)
+        expect(flash).to_not be_empty
+      end
+   
+      it '未ログインユーザはログインページにリダイレクトされること' do
+        get edit_user_path(user)
+        expect(response).to redirect_to login_path
+      end
+    end
+
+    context '別のユーザの場合' do
+      let(:other_user) { FactoryBot.create(:archer) }
+     
+      it 'flashが空であること' do
+        log_in user
+        get edit_user_path(other_user)
+        expect(flash).to be_empty
+      end
+     
+      it 'root_pathにリダイレクトされること' do
+        log_in user
+        get edit_user_path(other_user)
+        expect(response).to redirect_to root_path
+      end
+    end
+  end
+
+  describe 'PATCH /users' do
+  # let!(:user) { FactoryBot.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
  
     context '無効な値の場合' do
-      it '更新できないこと' do
+      before do
+        log_in user
         patch user_path(user), params: { user: { name: '',
                                                  email: 'foo@invlid',
                                                  password: 'foo',
                                                  password_confirmation: 'bar' } }
+      end
+
+      it '更新できないこと' do
         user.reload
         expect(user.name).to_not eq ''
         expect(user.email).to_not eq ''
@@ -54,17 +92,17 @@ RSpec.describe "Users", type: :request do
       end
  
       it '更新アクション後にeditのページが表示されていること' do
-        get edit_user_path(user)
-        patch user_path(user), params: { user: { name: '',
-                                                 email: 'foo@invlid',
-                                                 password: 'foo',
-                                                 password_confirmation: 'bar' } }
         expect(response.body).to include full_title('Edit user')
+      end
+
+      it 'The form contains 4 errors.と表示されていること' do
+        expect(response.body).to include 'The form contains 4 errors.'
       end
     end
 
     context '有効な値の場合' do
       before do
+        log_in user
         @name = 'Foo Bar'
         @email = 'foo@bar.com'
         patch user_path(user), params: { user: { name: @name,
@@ -87,5 +125,20 @@ RSpec.describe "Users", type: :request do
         expect(flash).to be_any
       end
     end
+    
+    context '未ログインの場合' do
+      it 'flashが空でないこと' do
+        patch user_path(user), params: { user: { name: user.name,
+                                                 email: user.email } }
+        expect(flash).to_not be_empty
+      end
+    
+      it '未ログインユーザはログインページにリダイレクトされること' do
+        patch user_path(user), params: { user: { name: user.name,
+                                           email: user.email } }
+        expect(response).to redirect_to login_path
+      end
+    end
+
   end
 end
