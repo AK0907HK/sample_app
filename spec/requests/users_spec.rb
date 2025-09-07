@@ -9,14 +9,14 @@ RSpec.describe "Users", type: :request do
 
     context '有効な値の場合' do
       let(:user_params) { { user: { name: 'Example User',
-                                 email: 'user@example.com',
-                                 password: 'password',
-                                 password_confirmation: 'password' } } }
+                                    email: 'user@example.com',
+                                    password: 'password',
+                                    password_confirmation: 'password' } } }
 
       it '登録されること' do
         expect {
-         post users_path, params: user_params
-         }.to change(User, :count).by 1
+          post users_path, params: user_params
+        }.to change(User, :count).by(1)
       end
 
       it 'users/showにリダイレクトされること' do
@@ -31,4 +31,61 @@ RSpec.describe "Users", type: :request do
       end
     end
   end  
-end 
+
+  describe 'PATCH /users' do
+    let!(:user) { FactoryBot.create(:user) }
+ 
+    it 'タイトルがEdit user | Ruby on Rails Tutorial Sample Appであること' do
+      get edit_user_path(user)
+      expect(response.body).to include full_title('Edit user')
+    end
+ 
+    context '無効な値の場合' do
+      it '更新できないこと' do
+        patch user_path(user), params: { user: { name: '',
+                                                 email: 'foo@invlid',
+                                                 password: 'foo',
+                                                 password_confirmation: 'bar' } }
+        user.reload
+        expect(user.name).to_not eq ''
+        expect(user.email).to_not eq ''
+        expect(user.password).to_not eq 'foo'
+        expect(user.password_confirmation).to_not eq 'bar'
+      end
+ 
+      it '更新アクション後にeditのページが表示されていること' do
+        get edit_user_path(user)
+        patch user_path(user), params: { user: { name: '',
+                                                 email: 'foo@invlid',
+                                                 password: 'foo',
+                                                 password_confirmation: 'bar' } }
+        expect(response.body).to include full_title('Edit user')
+      end
+    end
+
+    context '有効な値の場合' do
+      before do
+        @name = 'Foo Bar'
+        @email = 'foo@bar.com'
+        patch user_path(user), params: { user: { name: @name,
+                                                 email: @email,
+                                                 password: '',
+                                                 password_confirmation: '' } }
+      end
+    
+      it '更新できること' do
+        user.reload
+        expect(user.name).to eq @name
+        expect(user.email).to eq @email
+      end
+   
+      it 'Users#showにリダイレクトすること' do
+        expect(response).to redirect_to user
+      end
+   
+      it 'flashが表示されていること' do
+        expect(flash).to be_any
+      end
+    end
+  end
+end
