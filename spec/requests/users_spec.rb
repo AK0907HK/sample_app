@@ -19,10 +19,10 @@ RSpec.describe "Users", type: :request do
         }.to change(User, :count).by(1)
       end
 
-      it 'users/showにリダイレクトされること' do
+      it 'root_pathにリダイレクトされること' do
         post users_path, params: user_params
         user = User.last
-        expect(response).to redirect_to user
+        expect(response).to redirect_to root_path
       end
 
       it 'ログイン状態であること' do
