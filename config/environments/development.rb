@@ -42,6 +42,12 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
+  host = 'example.com' # ここをコピペすると失敗します。自分の環境のホストに変えてください。
+  config.action_mailer.default_url_options = { host: host, protocol: 'http' }  
+
+#  host = 'localhost:3000'                     # ローカル環境
+#  config.action_mailer.default_url_options = { host: host, protocol: 'http' }
+
   config.action_mailer.perform_caching = false
 
   # Print deprecation notices to the Rails logger.
